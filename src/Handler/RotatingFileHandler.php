@@ -67,7 +67,7 @@ class RotatingFileHandler extends AbstractHandler
         }
 
         // Get file name appending data by on $this->rotationEvery
-        return preg_replace('/(^.*\/[^.\/]+)(\.[^.\/]+)?$/', "$1\\{$this->rotationStartedAt->format('Y-M-d H:m:s')}$2", $this->filename);
+        return preg_replace('/(^.*\/[^.\/]+)(\.[^.\/]+)?$/', "$1_{$this->rotationStartedAt->format('Y-M-d H:m:s')}$2", $this->filename);
     }
 
     /**
