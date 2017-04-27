@@ -34,14 +34,7 @@ class StandardFormatter implements FormatterInterface
     }
 
     /**
-     * Return the string to log, replacing the placeholders.
-     *
-     * @param string $name
-     * @param string $level
-     * @param string $message
-     * @param array $context
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function interpolate($name, $level, $message, array $context = []): string
     {

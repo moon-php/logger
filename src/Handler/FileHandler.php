@@ -24,14 +24,7 @@ class FileHandler extends AbstractHandler
     }
 
     /**
-     * Format the message and push it somewhere
-     *
-     * @param $name
-     * @param $level
-     * @param $message
-     * @param array $context
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function add($name, $level, $message, array $context = []): void
     {
