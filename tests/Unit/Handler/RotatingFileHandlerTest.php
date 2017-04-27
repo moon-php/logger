@@ -5,15 +5,11 @@ namespace Moon\Logger\Unit\Handler;
 use Moon\Logger\Formatter\FormatterInterface;
 use Moon\Logger\Handler\RotatingFileHandler;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
-class RotatingFileHandlerTest extends \PHPUnit_Framework_TestCase
+class RotatingFileHandlerTest extends TestCase
 {
-    /**
-     * @var $formatter FormatterInterface
-     */
-    private $formatter;
-
     /**
      * Mock the filesystem on setup
      */

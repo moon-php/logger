@@ -56,7 +56,7 @@ class Logger extends AbstractLogger
      *
      * @return void
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): void
     {
         // throw an InvalidArgumentException if the level to log isn't in AbstractLogger
         if (!in_array($level, $this->levels)) {

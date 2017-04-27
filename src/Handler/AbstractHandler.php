@@ -30,5 +30,5 @@ abstract class AbstractHandler
      *
      * @return void
      */
-    abstract public function add($name, $level, $message, array $context = []);
+    abstract public function add($name, $level, $message, array $context = []): void;
 }

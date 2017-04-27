@@ -5,8 +5,9 @@ namespace Moon\Logger\Unit\Handler;
 use Moon\Logger\Formatter\FormatterInterface;
 use Moon\Logger\Handler\FileHandler;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class FileHandlerTest extends \PHPUnit_Framework_TestCase
+class FileHandlerTest extends TestCase
 {
     /**
      * @var $formatter FormatterInterface

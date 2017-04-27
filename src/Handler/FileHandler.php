@@ -33,7 +33,7 @@ class FileHandler extends AbstractHandler
      *
      * @return void
      */
-    public function add($name, $level, $message, array $context = [])
+    public function add($name, $level, $message, array $context = []): void
     {
         // Format the message
         $data = $this->formatter->interpolate($name, $level, $message, $context);

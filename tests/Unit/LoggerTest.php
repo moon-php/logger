@@ -6,9 +6,10 @@ namespace Moon\Logger\Unit;
 use Moon\Logger\Handler\AbstractHandler;
 use Moon\Logger\Logger;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\InvalidArgumentException;
 
-class LoggerTest extends \PHPUnit_Framework_TestCase
+class LoggerTest extends TestCase
 {
     /**
      * Mock the filesystem on setup
@@ -104,6 +105,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler = $this->getMockBuilder(AbstractHandler::class)->disableOriginalConstructor()->getMock();
         $logger = new Logger('', [$handler]);
         $logger->debug($message);
+        $this->assertTrue(true);
     }
 
     /**
@@ -114,7 +116,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function loggerNameDataProvider()
     {
         return [
-            ['name'], ['123'], ['']
+            ['name'],
+            ['123'],
+            ['']
         ];
     }
 
@@ -126,7 +130,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function invalidLoggerHandlersDataProvider()
     {
         return [
-            [[]], [['string'], [new \stdClass()]]
+            [[]],
+            [['string'], [new \stdClass()]]
         ];
     }
 
@@ -138,7 +143,15 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function loggerMethodDataProvider()
     {
         return [
-            ['log'], ['emergency'], ['alert'], ['critical'], ['error'], ['warning'], ['notice'], ['info'], ['debug']
+            ['log'],
+            ['emergency'],
+            ['alert'],
+            ['critical'],
+            ['error'],
+            ['warning'],
+            ['notice'],
+            ['info'],
+            ['debug']
         ];
     }
 
@@ -150,7 +163,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function loggerInvalidMethodDataProvider()
     {
         return [
-            ['log'], ['not_exists'], ['invalid']
+            ['log'],
+            ['not_exists'],
+            ['invalid']
         ];
     }
 

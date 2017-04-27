@@ -43,7 +43,7 @@ class StandardFormatter implements FormatterInterface
      *
      * @return string
      */
-    public function interpolate($name, $level, $message, array $context = [])
+    public function interpolate($name, $level, $message, array $context = []): string
     {
         foreach ($context as $key => $value) {
 
@@ -95,11 +95,12 @@ class StandardFormatter implements FormatterInterface
      * Return a timestamp for logger
      * (Is a specific method for a better testability)
      *
-     * @return \DateTimeImmutable
+     * @return string
      */
-    protected function getTimestampFromImmutable()
+    protected function getTimestampFromImmutable(): string
     {
         $date = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+
         return $date->format($this->dateFormat);
     }
 }

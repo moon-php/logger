@@ -4,8 +4,9 @@ namespace Moon\Logger\Unit\Formatter;
 
 
 use Moon\Logger\Formatter\StandardFormatter;
+use PHPUnit\Framework\TestCase;
 
-class StandardFormatterTest extends \PHPUnit_Framework_TestCase
+class StandardFormatterTest extends TestCase
 {
     /**
      * Test interpolation validity
@@ -42,9 +43,27 @@ class StandardFormatterTest extends \PHPUnit_Framework_TestCase
 
         return [
             ['name', 'level', 'message', [], '#\[DATA\] (\w+).(\w+): (.)+ (\[\]) \[\]#'],
-            ['name', 'level', 'Custom message: {message}', ['message' => 'hello'], '#\[DATA\] (\w+).(\w+): Custom message: hello (\[\]) \[\]#'],
-            ['name', 'level', 'fake exception', ['exception' => 'fake'], '#\[DATA\] (\w+).(\w+): (.)+ \[({"exception":"fake"})\] \[\]#'],
-            ['name', 'level', 'true exception', ['exception' => $exception], '#\[DATA\] (\w+).(\w+): (.)+ (\[\]) \[(,?\( Exception: \(code:  [123] \):  (first|second|third)  at  ([\w/]+).php : \d+\)){3}\]#'],
+            [
+                'name',
+                'level',
+                'Custom message: {message}',
+                ['message' => 'hello'],
+                '#\[DATA\] (\w+).(\w+): Custom message: hello (\[\]) \[\]#'
+            ],
+            [
+                'name',
+                'level',
+                'fake exception',
+                ['exception' => 'fake'],
+                '#\[DATA\] (\w+).(\w+): (.)+ \[({"exception":"fake"})\] \[\]#'
+            ],
+            [
+                'name',
+                'level',
+                'true exception',
+                ['exception' => $exception],
+                '#\[DATA\] (\w+).(\w+): (.)+ (\[\]) \[(,?\( Exception: \(code:  [123] \):  (first|second|third)  at  ([\w/]+).php : \d+\)){3}\]#'
+            ],
         ];
     }
 }

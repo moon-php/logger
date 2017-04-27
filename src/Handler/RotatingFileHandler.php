@@ -44,11 +44,11 @@ class RotatingFileHandler extends AbstractHandler
      *
      * @return void
      */
-    public function add($name, $level, $message, array $context = [])
+    public function add($name, $level, $message, array $context = []): void
     {
         // Format the message
         $data = $this->formatter->interpolate($name, $level, $message, $context);
-        
+
         // Push it to file
         file_put_contents($this->getRotatedFilename(), $data . PHP_EOL, FILE_APPEND);
     }
@@ -58,7 +58,7 @@ class RotatingFileHandler extends AbstractHandler
      *
      * @return string
      */
-    private function getRotatedFilename()
+    private function getRotatedFilename(): string
     {
         // Check if a new file must be used
         $now = $this->getCurrentDateTime();
@@ -67,7 +67,8 @@ class RotatingFileHandler extends AbstractHandler
         }
 
         // Get file name appending data by on $this->rotationEvery
-        return preg_replace('/(^.*\/[^.\/]+)(\.[^.\/]+)?$/', "$1_{$this->rotationStartedAt->format('Y-M-d H:m:s')}$2", $this->filename);
+        return preg_replace('/(^.*\/[^.\/]+)(\.[^.\/]+)?$/', "$1_{$this->rotationStartedAt->format('Y-M-d H:m:s')}$2",
+            $this->filename);
     }
 
     /**
@@ -75,7 +76,7 @@ class RotatingFileHandler extends AbstractHandler
      *
      * @return \DateTimeImmutable
      */
-    private function getCurrentDateTime()
+    private function getCurrentDateTime(): \DateTimeImmutable
     {
         return new \DateTimeImmutable('now');
     }

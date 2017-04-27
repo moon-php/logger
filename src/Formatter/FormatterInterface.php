@@ -15,5 +15,5 @@ interface FormatterInterface
      *
      * @return string
      */
-    public function interpolate($name, $level, $message, array $context = []);
+    public function interpolate($name, $level, $message, array $context = []): string;
 }
