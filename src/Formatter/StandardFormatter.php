@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moon\Logger\Formatter;
 
 
@@ -41,7 +43,7 @@ class StandardFormatter implements FormatterInterface
         foreach ($context as $key => $value) {
 
             // If in the context array there's a key with an \Exception as value
-            if ($key == 'exception' && $value instanceof \Exception) {
+            if ($key === 'exception' && $value instanceof \Exception) {
                 // Get the full error trace as string
                 $exceptionTrace = '';
                 while (!isset($previous)) {
@@ -72,7 +74,7 @@ class StandardFormatter implements FormatterInterface
 
         // Handle the string to replace (empty if is not set)
         $context = count($context) > 0 ? json_encode($context) : '';
-        $exceptionTrace = isset($exceptionTrace) ? $exceptionTrace : '';
+        $exceptionTrace = $exceptionTrace ?? '';
 
         // Replace and return the log line
         $data = str_replace(

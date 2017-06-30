@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moon\Logger;
 
 use Moon\Logger\Handler\AbstractHandler;
