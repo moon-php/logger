@@ -4,8 +4,9 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/moon-php/logger/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/moon-php/logger/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/moon-php/logger/badges/build.png?b=master)](https://scrutinizer-ci.com/g/moon-php/logger/build-status/master)
 
+## Official Documentation
 
-### [Documentation](http://moon-php.com/docs/logger/)
+Documentation can be found on the [Moon website](https://www.moon-php.com/docs/logger/).
 
 ## Tests
 
@@ -24,7 +25,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 Learn more at these links:
 
-- [Website](http://moon-php.com)
+- [Website](http://www.moon-php.com)
 
 ## Security
 
