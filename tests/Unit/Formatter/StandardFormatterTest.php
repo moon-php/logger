@@ -8,6 +8,25 @@ use PHPUnit\Framework\TestCase;
 
 class StandardFormatterTest extends TestCase
 {
+    public function testNewDateFormatHasBeenSet()
+    {
+        $formatter = new StandardFormatter('Y-m-d');
+        $reflection = new \ReflectionObject($formatter);
+        $defaultCurrentTime = $reflection->getProperty('dateFormat');
+        $defaultCurrentTime->setAccessible(true);
+        $this->assertSame('Y-m-d', $defaultCurrentTime->getValue($formatter));
+    }
+
+    public function testGetTimestampFromImmutableReturnAValidFormat()
+    {
+        $formatter = new StandardFormatter('i');
+        $reflection = new \ReflectionObject($formatter);
+        $getTimestampFromImmutable = $reflection->getMethod('getTimestampFromImmutable');
+        $getTimestampFromImmutable->setAccessible(true);
+        $seconds = $getTimestampFromImmutable->invoke($formatter);
+        $this->assertRegExp('/^[0-5][0-9]$/', $seconds);
+    }
+
     /**
      * Test interpolation validity
      *
@@ -28,7 +47,7 @@ class StandardFormatterTest extends TestCase
         /** @var StandardFormatter $formatter */
         $interpolated = $formatter->interpolate($name, $level, $message, $context);
 
-        $interpolated = str_replace(realpath(dirname(__FILE__)), '', $interpolated);
+        $interpolated = str_replace(realpath(__DIR__), '', $interpolated);
         $this->assertRegExp($regex, $interpolated);
     }
 

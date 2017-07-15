@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Moon\Logger\Handler;
 
+use DateTimeImmutable;
 use Moon\Logger\Formatter\FormatterInterface;
 
-class RotatingFileHandler extends AbstractHandler
+class RotatingFileHandler implements HandlerInterface
 {
     /**
      * @var string $filename
@@ -17,29 +18,38 @@ class RotatingFileHandler extends AbstractHandler
      */
     private $rotateEvery;
     /**
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      */
     private $rotationStartedAt;
+    /**
+     * @var FormatterInterface
+     */
+    private $formatter;
 
     /**
-     * RotatingFileHandler constructor.
+     * @var string
+     */
+    private $defaultCurrentTime = 'now';
+
+    /**
+     * RotatingFileHandlerInterface constructor.
      *
      * @param FormatterInterface $formatter
-     * @param $filename
+     * @param string $filename
      * @param \DateInterval $rotateEvery
      */
-    public function __construct(FormatterInterface $formatter, $filename, \DateInterval $rotateEvery = null)
+    public function __construct(FormatterInterface $formatter, string $filename, \DateInterval $rotateEvery = null)
     {
-        parent::__construct($formatter);
         $this->filename = $filename;
+        $this->formatter = $formatter;
         $this->rotateEvery = $rotateEvery ?: new \DateInterval('P1D');
-        $this->rotationStartedAt = new \DateTimeImmutable('now');
+        $this->rotationStartedAt = new DateTimeImmutable('now');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add($name, $level, $message, array $context = []): void
+    public function add(string $name, string $level, $message, array $context = []): void
     {
         // Format the message
         $data = $this->formatter->interpolate($name, $level, $message, $context);
@@ -69,10 +79,10 @@ class RotatingFileHandler extends AbstractHandler
     /**
      * Return a current DateTime. Extracted for be easily tested.
      *
-     * @return \DateTimeImmutable
+     * @return DateTimeImmutable
      */
-    private function getCurrentDateTime(): \DateTimeImmutable
+    private function getCurrentDateTime(): DateTimeImmutable
     {
-        return new \DateTimeImmutable('now');
+        return new DateTimeImmutable($this->defaultCurrentTime);
     }
 }

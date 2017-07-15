@@ -52,11 +52,13 @@ class RotatingFileHandlerTest extends TestCase
         $reflection = new ReflectionObject($fileHandler);
         $getRotatedFilename = $reflection->getMethod('getRotatedFilename');
         $getRotatedFilename->setAccessible(true);
+        $defaultCurrentTime = $reflection->getProperty('defaultCurrentTime');
+        $defaultCurrentTime->setAccessible(true);
 
         $filename = $getRotatedFilename->invoke($fileHandler);
-        sleep(2);
+        $defaultCurrentTime->setValue($fileHandler, '+1 second');
         $anotherFilename = $getRotatedFilename->invoke($fileHandler);
-        $this->assertTrue($filename != $anotherFilename);
+        $this->assertNotEquals($filename, $anotherFilename);
     }
 
 

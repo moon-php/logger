@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Moon\Logger\Formatter;
 
+use Exception;
 
 class StandardFormatter implements FormatterInterface
 {
@@ -38,15 +39,15 @@ class StandardFormatter implements FormatterInterface
     /**
      * {@inheritdoc}
      */
-    public function interpolate($name, $level, $message, array $context = []): string
+    public function interpolate(string $name, string $level, string $message, array $context = []): string
     {
         foreach ($context as $key => $value) {
 
             // If in the context array there's a key with an \Exception as value
-            if ($key === 'exception' && $value instanceof \Exception) {
+            if ($key === 'exception' && $value instanceof Exception) {
                 // Get the full error trace as string
                 $exceptionTrace = '';
-                while (!isset($previous)) {
+                while ($previous??true) {
                     // Create the trace string
                     $exceptionTrace .= "( " . get_class($value) . ": (code:  {$value->getCode()} ):  {$value->getMessage()}  at  {$value->getFile()} : {$value->getLine()}),";
                     // If there's no previous exception, stop the loop

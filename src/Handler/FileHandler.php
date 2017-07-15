@@ -6,29 +6,33 @@ namespace Moon\Logger\Handler;
 
 use Moon\Logger\Formatter\FormatterInterface;
 
-class FileHandler extends AbstractHandler
+class FileHandler implements HandlerInterface
 {
     /**
      * @var string $filename
      */
     private $filename;
+    /**
+     * @var FormatterInterface
+     */
+    private $formatter;
 
     /**
      * FileHandler constructor.
      *
      * @param FormatterInterface $formatter
-     * @param $filename
+     * @param string $filename
      */
-    public function __construct(FormatterInterface $formatter, $filename)
+    public function __construct(FormatterInterface $formatter, string $filename)
     {
-        parent::__construct($formatter);
+        $this->formatter = $formatter;
         $this->filename = $filename;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add($name, $level, $message, array $context = []): void
+    public function add(string $name, string $level, $message, array $context = []): void
     {
         // Format the message
         $data = $this->formatter->interpolate($name, $level, $message, $context);

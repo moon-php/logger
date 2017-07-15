@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Moon\Logger\Formatter;
 
-
 interface FormatterInterface
 {
     /**
@@ -17,5 +16,5 @@ interface FormatterInterface
      *
      * @return string
      */
-    public function interpolate($name, $level, $message, array $context = []): string;
+    public function interpolate(string $name, string $level, string $message, array $context = []): string;
 }

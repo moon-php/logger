@@ -3,7 +3,7 @@
 namespace Moon\Logger\Unit;
 
 
-use Moon\Logger\Handler\AbstractHandler;
+use Moon\Logger\Handler\HandlerInterface;
 use Moon\Logger\Logger;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +28,7 @@ class LoggerTest extends TestCase
      */
     public function testLoggerNameBeingSet($name)
     {
-        $handler = $this->getMockBuilder(AbstractHandler::class)->disableOriginalConstructor()->getMock();
+        $handler = $this->getMockBuilder(HandlerInterface::class)->disableOriginalConstructor()->getMock();
         $logger = new Logger($name, [$handler]);
 
         $reflectionLogger = new \ReflectionClass($logger);
@@ -73,7 +73,7 @@ class LoggerTest extends TestCase
     public function testInvalidMethods($method)
     {
         $this->expectException(InvalidArgumentException::class);
-        $handler = $this->getMockBuilder(AbstractHandler::class)->disableOriginalConstructor()->getMock();
+        $handler = $this->getMockBuilder(HandlerInterface::class)->disableOriginalConstructor()->getMock();
         $logger = new Logger('', [$handler]);
         $logger->log($method, '');
     }
@@ -88,7 +88,7 @@ class LoggerTest extends TestCase
     public function testInvalidMessage($message)
     {
         $this->expectException(InvalidArgumentException::class);
-        $handler = $this->getMockBuilder(AbstractHandler::class)->disableOriginalConstructor()->getMock();
+        $handler = $this->getMockBuilder(HandlerInterface::class)->disableOriginalConstructor()->getMock();
         $logger = new Logger('', [$handler]);
         $logger->debug($message);
     }
@@ -102,7 +102,7 @@ class LoggerTest extends TestCase
      */
     public function testValidMessage($message)
     {
-        $handler = $this->getMockBuilder(AbstractHandler::class)->disableOriginalConstructor()->getMock();
+        $handler = $this->getMockBuilder(HandlerInterface::class)->disableOriginalConstructor()->getMock();
         $logger = new Logger('', [$handler]);
         $logger->debug($message);
         $this->assertTrue(true);

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Moon\Logger;
 
-use Moon\Logger\Handler\AbstractHandler;
+use Moon\Logger\Handler\HandlerInterface;
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
+use Psr\Log\LogLevel;
 
 class Logger extends AbstractLogger
 {
@@ -16,7 +17,7 @@ class Logger extends AbstractLogger
     private $name;
 
     /**
-     * @var AbstractHandler[] $handlers
+     * @var HandlerInterface[] $handlers
      */
     private $handlers = [];
 
@@ -30,19 +31,22 @@ class Logger extends AbstractLogger
      *
      * @param $name
      * @param array $handlers
+     *
+     * @throws InvalidArgumentException
+     * @throws \Psr\Log\InvalidArgumentException
      */
-    public function __construct($name, array $handlers)
+    public function __construct(string $name, array $handlers)
     {
         $this->name = $name;
 
-        if (count($handlers) == 0) {
-            throw new InvalidArgumentException("At least one handler must be passed");
+        if (count($handlers) === 0) {
+            throw new InvalidArgumentException('At least one handler must be passed');
         }
 
         foreach ($handlers as $key => $handler) {
-            if (!$handler instanceof AbstractHandler) {
+            if (!$handler instanceof HandlerInterface) {
                 throw new InvalidArgumentException(
-                    "Handler must implement Moon\\Logger\\Handler\\HandlerInterface. Error with handler with key: $key"
+                    sprintf('Handler must implement %s. Error with handler with key: %s', HandlerInterface::class, $key)
                 );
             }
             $this->handlers[] = $handler;
@@ -51,24 +55,25 @@ class Logger extends AbstractLogger
 
     /**
      * {@inheritdoc}
+     * @throws InvalidArgumentException
      */
     public function log($level, $message, array $context = []): void
     {
         // throw an InvalidArgumentException if the level to log isn't in AbstractLogger
-        if (!in_array($level, $this->levels)) {
-            throw new InvalidArgumentException(
-                "The level MUST be one of the constants contained by the Psr\\Log\\LogLevel class. Given $level"
-            );
+        if (!in_array($level, $this->levels, true)) {
+            throw new InvalidArgumentException(sprintf(
+                'The level MUST be one of the constants contained by the %s class. Given %s', LogLevel::class, $level
+            ));
         }
 
         // throw an InvalidArgumentException if the message isn't an invalid format
         if (is_array($message) || (is_object($message) && !method_exists($message, '__toString'))) {
-            throw new InvalidArgumentException("Message must be a string or an object implementing __toString() method");
+            throw new InvalidArgumentException('Message must be a string or an object implementing __toString() method');
         }
 
         // Pass the log to the handlers
         foreach ($this->handlers as $handler) {
-            /** @var AbstractHandler $handler */
+            /** @var HandlerInterface $handler */
             $handler->add($this->name, $level, $message, $context);
         }
     }
