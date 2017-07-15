@@ -63,13 +63,11 @@ class StandardFormatter implements FormatterInterface
             }
 
             // If the value isn't an array and is an object with a toString method
-            if (!is_array($value) || (is_object($value) && method_exists($value, '__toString'))) {
+            if ((!is_array($value) || (is_object($value) && method_exists($value, '__toString'))) && strpos($message, '{' . $key . '}') !== false) {
                 // If in the message there's a placeholder (represented as {key}) replace it with the value,
                 // remove from the context and continue
-                if (strpos($message, '{' . $key . '}') !== false) {
-                    $message = str_replace('{' . $key . '}', "$value", $message);
-                    unset($context[$key]);
-                }
+                $message = str_replace('{' . $key . '}', "$value", $message);
+                unset($context[$key]);
             }
         }
 
