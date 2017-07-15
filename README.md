@@ -25,7 +25,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 Learn more at these links:
 
-- [Website](http://www.moon-php.com)
+- [Moon Website](http://www.moon-php.com)
 
 ## Security
 
