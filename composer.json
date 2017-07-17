@@ -1,13 +1,15 @@
 {
   "name": "moon-php/logger",
   "description": "A very simple Logger with support for the PSR-3",
-  "require-dev": {
-    "phpunit/phpunit": "^6.1",
-    "mikey179/vfsStream": "^1.6"
-  },
+  "license": "MIT",
+  "homepage": "https://www.moon-php.com/",
   "require": {
     "php": ">=7.1",
     "psr/log": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.1",
+    "mikey179/vfsStream": "^1.6"
   },
   "authors": [
     {
