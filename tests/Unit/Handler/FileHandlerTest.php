@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moon\Logger\Unit\Handler;
 
 use Moon\Logger\Formatter\FormatterInterface;
@@ -10,12 +12,12 @@ use PHPUnit\Framework\TestCase;
 class FileHandlerTest extends TestCase
 {
     /**
-     * @var $formatter FormatterInterface
+     * @var FormatterInterface
      */
     private $formatter;
 
     /**
-     * Mock the filesystem on setup
+     * Mock the filesystem on setup.
      */
     public static function setUpBeforeClass()
     {
@@ -23,7 +25,7 @@ class FileHandlerTest extends TestCase
     }
 
     /**
-     * Mock formatter
+     * Mock formatter.
      */
     public function setUp()
     {
@@ -35,10 +37,7 @@ class FileHandlerTest extends TestCase
     }
 
     /**
-     * Test if the FileHandler write on file
-     *
-     * @param $expectedContent
-     * @param $pathToFile
+     * Test if the FileHandler write on file.
      *
      * @dataProvider formatterInfoDataProvider
      */
@@ -46,19 +45,17 @@ class FileHandlerTest extends TestCase
     {
         $fileHandler = new FileHandler($this->formatter, $pathToFile);
         $fileHandler->add('name', 'level', 'message');
-        $this->assertEquals($expectedContent, file_get_contents($pathToFile));
+        $this->assertEquals($expectedContent, \file_get_contents($pathToFile));
     }
 
     /**
-     * Return strings for testFileHandler
-     *
-     * @return array
+     * Return strings for testFileHandler.
      */
-    public function formatterInfoDataProvider()
+    public function formatterInfoDataProvider(): array
     {
         return [
-            ["This is a log string" . PHP_EOL, vfsStream::url('home/file')],
-            ["This is a log string" . PHP_EOL . "This is a log string" . PHP_EOL, vfsStream::url('home/file')]
+            ['This is a log string'.PHP_EOL, vfsStream::url('home/file')],
+            ['This is a log string'.PHP_EOL.'This is a log string'.PHP_EOL, vfsStream::url('home/file')],
         ];
     }
 }

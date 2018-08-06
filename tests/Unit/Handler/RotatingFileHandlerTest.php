@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moon\Logger\Unit\Handler;
 
 use Moon\Logger\Formatter\FormatterInterface;
@@ -11,7 +13,7 @@ use ReflectionObject;
 class RotatingFileHandlerTest extends TestCase
 {
     /**
-     * Mock the filesystem on setup
+     * Mock the filesystem on setup.
      */
     public static function setUpBeforeClass()
     {
@@ -19,10 +21,7 @@ class RotatingFileHandlerTest extends TestCase
     }
 
     /**
-     * Test if the RotatingFileHandler write on file
-     *
-     * @param $expectedContent
-     * @param $pathToFile
+     * Test if the RotatingFileHandler write on file.
      *
      * @dataProvider formatterInfoDataProvider
      */
@@ -38,11 +37,11 @@ class RotatingFileHandlerTest extends TestCase
         $getRotatedFilename->setAccessible(true);
 
         $fileHandler->add('name', 'level', 'message');
-        $this->assertEquals($expectedContent, file_get_contents($getRotatedFilename->invoke($fileHandler)));
+        $this->assertEquals($expectedContent, \file_get_contents($getRotatedFilename->invoke($fileHandler)));
     }
 
     /**
-     * Test that the filename is different
+     * Test that the filename is different.
      */
     public function testGetRotatedFilename()
     {
@@ -61,28 +60,22 @@ class RotatingFileHandlerTest extends TestCase
         $this->assertNotEquals($filename, $anotherFilename);
     }
 
-
     /**
-     * Return strings for testFileHandler
-     *
-     * @return array
+     * Return strings for testFileHandler.
      */
-    public function formatterInfoDataProvider()
+    public function formatterInfoDataProvider(): array
     {
         return [
-            ["This is a log string" . PHP_EOL, vfsStream::url('home/file')],
-            ["This is a log string" . PHP_EOL . "This is a log string" . PHP_EOL, vfsStream::url('home/file')]
+            ['This is a log string'.PHP_EOL, vfsStream::url('home/file')],
+            ['This is a log string'.PHP_EOL.'This is a log string'.PHP_EOL, vfsStream::url('home/file')],
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function sampleDataProvider()
+    public function sampleDataProvider(): array
     {
         return [
             ['vfs://home/asd', vfsStream::url('home/file')],
-            ['vfs://home/das', vfsStream::url('home/file')]
+            ['vfs://home/das', vfsStream::url('home/file')],
         ];
     }
 }

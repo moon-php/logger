@@ -10,7 +10,7 @@ use Moon\Logger\Formatter\FormatterInterface;
 class RotatingFileHandler implements HandlerInterface
 {
     /**
-     * @var string $filename
+     * @var string
      */
     private $filename;
     /**
@@ -31,13 +31,6 @@ class RotatingFileHandler implements HandlerInterface
      */
     private $defaultCurrentTime = 'now';
 
-    /**
-     * RotatingFileHandlerInterface constructor.
-     *
-     * @param FormatterInterface $formatter
-     * @param string $filename
-     * @param \DateInterval $rotateEvery
-     */
     public function __construct(FormatterInterface $formatter, string $filename, \DateInterval $rotateEvery = null)
     {
         $this->filename = $filename;
@@ -46,22 +39,17 @@ class RotatingFileHandler implements HandlerInterface
         $this->rotationStartedAt = new DateTimeImmutable('now');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function add(string $name, string $level, $message, array $context = []): void
     {
         // Format the message
         $data = $this->formatter->interpolate($name, $level, $message, $context);
 
         // Push it to file
-        file_put_contents($this->getRotatedFilename(), $data . PHP_EOL, FILE_APPEND);
+        \file_put_contents($this->getRotatedFilename(), $data.PHP_EOL, FILE_APPEND);
     }
 
     /**
-     * Return the file name appending the $this->rotationStartedAt
-     *
-     * @return string
+     * Return the file name appending the $this->rotationStartedAt.
      */
     private function getRotatedFilename(): string
     {
@@ -72,14 +60,12 @@ class RotatingFileHandler implements HandlerInterface
         }
 
         // Get file name appending data by on $this->rotationEvery
-        return preg_replace('/(^.*\/[^.\/]+)(\.[^.\/]+)?$/', "$1_{$this->rotationStartedAt->format('Y-M-d H:m:s')}$2",
+        return \preg_replace('/(^.*\/[^.\/]+)(\.[^.\/]+)?$/', "$1_{$this->rotationStartedAt->format('Y-M-d H:m:s')}$2",
             $this->filename);
     }
 
     /**
      * Return a current DateTime. Extracted for be easily tested.
-     *
-     * @return DateTimeImmutable
      */
     private function getCurrentDateTime(): DateTimeImmutable
     {

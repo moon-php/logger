@@ -1,7 +1,8 @@
 <?php
 
-namespace Moon\Logger\Unit\Formatter;
+declare(strict_types=1);
 
+namespace Moon\Logger\Unit\Formatter;
 
 use Moon\Logger\Formatter\StandardFormatter;
 use PHPUnit\Framework\TestCase;
@@ -28,13 +29,7 @@ class StandardFormatterTest extends TestCase
     }
 
     /**
-     * Test interpolation validity
-     *
-     * @param string $name
-     * @param string $level
-     * @param string $message
-     * @param array $context
-     * @param string $regex Has # as delimiter
+     * Test interpolation validity.
      *
      * @dataProvider messageDataProvider
      */
@@ -47,14 +42,12 @@ class StandardFormatterTest extends TestCase
         /** @var StandardFormatter $formatter */
         $interpolated = $formatter->interpolate($name, $level, $message, $context);
 
-        $interpolated = str_replace(realpath(__DIR__), '', $interpolated);
+        $interpolated = \str_replace(\realpath(__DIR__) ?: '', '', $interpolated);
         $this->assertRegExp($regex, $interpolated);
     }
 
     /**
-     * Return a list of log params and the last is a regex
-     *
-     * @return array
+     * Return a list of log params and the last is a regex.
      */
     public function messageDataProvider()
     {
@@ -67,21 +60,21 @@ class StandardFormatterTest extends TestCase
                 'level',
                 'Custom message: {message}',
                 ['message' => 'hello'],
-                '#\[DATA\] (\w+).(\w+): Custom message: hello (\[\]) \[\]#'
+                '#\[DATA\] (\w+).(\w+): Custom message: hello (\[\]) \[\]#',
             ],
             [
                 'name',
                 'level',
                 'fake exception',
                 ['exception' => 'fake'],
-                '#\[DATA\] (\w+).(\w+): (.)+ \[({"exception":"fake"})\] \[\]#'
+                '#\[DATA\] (\w+).(\w+): (.)+ \[({"exception":"fake"})\] \[\]#',
             ],
             [
                 'name',
                 'level',
                 'true exception',
                 ['exception' => $exception],
-                '#\[DATA\] (\w+).(\w+): (.)+ (\[\]) \[(,?\( Exception: \(code:  [123] \):  (first|second|third)  at  ([\w/]+).php : \d+\)){3}\]#'
+                '#\[DATA\] (\w+).(\w+): (.)+ (\[\]) \[(,?\( Exception: \(code:  [123] \):  (first|second|third)  at  ([\w/]+).php : \d+\)){3}\]#',
             ],
         ];
     }

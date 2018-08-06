@@ -1,7 +1,8 @@
 <?php
 
-namespace Moon\Logger\Unit;
+declare(strict_types=1);
 
+namespace Moon\Logger\Unit;
 
 use Moon\Logger\Handler\HandlerInterface;
 use Moon\Logger\Logger;
@@ -12,7 +13,7 @@ use Psr\Log\InvalidArgumentException;
 class LoggerTest extends TestCase
 {
     /**
-     * Mock the filesystem on setup
+     * Mock the filesystem on setup.
      */
     public static function setUpBeforeClass()
     {
@@ -20,9 +21,7 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * Test that logger name has been set
-     *
-     * @param $name
+     * Test that logger name has been set.
      *
      * @dataProvider loggerNameDataProvider
      */
@@ -39,9 +38,7 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * Test that all handler has been set
-     *
-     * @param $invalidHandlers
+     * Test that all handler has been set.
      *
      * @dataProvider invalidLoggerHandlersDataProvider
      */
@@ -52,21 +49,17 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * Test that all the available log level can be called
-     *
-     * @param $method
+     * Test that all the available log level can be called.
      *
      * @dataProvider loggerMethodDataProvider
      */
     public function testExistingMethods($method)
     {
-        $this->assertTrue(method_exists(Logger::class, $method));
+        $this->assertTrue(\method_exists(Logger::class, $method));
     }
 
     /**
-     * Test that only the available log level can be called
-     *
-     * @param $method
+     * Test that only the available log level can be called.
      *
      * @dataProvider loggerInvalidMethodDataProvider
      */
@@ -79,9 +72,7 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * Test that InvalidArgumentException is thrown on invalid message
-     *
-     * @param $message
+     * Test that InvalidArgumentException is thrown on invalid message.
      *
      * @dataProvider loggerInvalidMessageDataProvider
      */
@@ -94,9 +85,7 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * Test that no exception is thrown with a valid message
-     *
-     * @param $message
+     * Test that no exception is thrown with a valid message.
      *
      * @dataProvider loggerValidMessageDataProvider
      */
@@ -109,38 +98,32 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * Return logger names
-     *
-     * @return array
+     * Return logger names.
      */
-    public function loggerNameDataProvider()
+    public function loggerNameDataProvider(): array
     {
         return [
             ['name'],
             ['123'],
-            ['']
+            [''],
         ];
     }
 
     /**
-     * Return invalid Handlers
-     *
-     * @return array
+     * Return invalid Handlers.
      */
-    public function invalidLoggerHandlersDataProvider()
+    public function invalidLoggerHandlersDataProvider(): array
     {
         return [
             [[]],
-            [['string'], [new \stdClass()]]
+            [['string'], [new \stdClass()]],
         ];
     }
 
     /**
-     * Return valid log level
-     *
-     * @return array
+     * Return valid log level.
      */
-    public function loggerMethodDataProvider()
+    public function loggerMethodDataProvider(): array
     {
         return [
             ['log'],
@@ -151,43 +134,37 @@ class LoggerTest extends TestCase
             ['warning'],
             ['notice'],
             ['info'],
-            ['debug']
+            ['debug'],
         ];
     }
 
     /**
-     * Return invalid log level
-     *
-     * @return array
+     * Return invalid log level.
      */
-    public function loggerInvalidMethodDataProvider()
+    public function loggerInvalidMethodDataProvider(): array
     {
         return [
             ['log'],
             ['not_exists'],
-            ['invalid']
+            ['invalid'],
         ];
     }
 
     /**
-     * Return invalid messages
-     *
-     * @return array
+     * Return invalid messages.
      */
-    public function loggerInvalidMessageDataProvider()
+    public function loggerInvalidMessageDataProvider(): array
     {
         return [
             [new \SplObjectStorage()],
-            [['array']]
+            [['array']],
         ];
     }
 
     /**
-     * Return valid messages
-     *
-     * @return array
+     * Return valid messages.
      */
-    public function loggerValidMessageDataProvider()
+    public function loggerValidMessageDataProvider(): array
     {
         $fake = $this->getMockBuilder('fakeClass')
             ->setMockClassName('Fake')
@@ -195,7 +172,7 @@ class LoggerTest extends TestCase
             ->getMock();
 
         return [
-            ['This is a fake message', $fake]
+            ['This is a fake message', $fake],
         ];
     }
 }
